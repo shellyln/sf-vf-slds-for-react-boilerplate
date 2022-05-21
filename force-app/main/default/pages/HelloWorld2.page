@@ -1,0 +1,42 @@
+<apex:page docType="html-5.0" applyHtmlTag="false" applyBodyTag="false" showHeader="false" sidebar="false" standardStylesheets="false">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="{!URLFOR($Resource.HelloWorld2,'favicon.ico')}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="apple-touch-icon" href="{!URLFOR($Resource.HelloWorld2,'logo192.png')}" />
+
+    <!--
+    manifest.json provides metadata used when your web app is installed on a
+    user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="{!URLFOR($Resource.HelloWorld2,'manifest.json')}" />
+
+    <title>Hello, World! 2</title>
+    <apex:slds />
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.18.0/styles/salesforce-lightning-design-system.min.css"
+        integrity="sha512-IEWjjVMdPlxcgkrCs5NhqAjGNXodMnZK/BRDf1+Trq8sqshdGwG/4lfBy3/CFr991ZVOZB6guOY51Bz5bX7FhA==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    -->
+
+    <script>
+        // See: https://developer.salesforce.com/docs/atlas.en-us.236.0.pages.meta/pages/vf_dev_best_practices_slds_icons.htm
+        var _SLDS_REACT_ASSET_ROOT = "{!URLFOR($Asset.SLDS, 'assets')}";
+        var _SLDS_REACT_ICON_PATH = "{!URLFOR($Asset.SLDS, 'assets/icons')}";
+        var _SLDS_REACT_IMAGE_PATH = "{!URLFOR($Asset.SLDS, 'images')}";
+    </script>
+
+    <script defer="defer" src="{!URLFOR($Resource.HelloWorld2,'/static/js/main.js')}"></script>
+    <link href="{!URLFOR($Resource.HelloWorld2,'/static/css/main.css')}" rel="stylesheet"></link>
+</head>
+<body>
+    <!-- TODO: define your "JavaScript Remoting" functions -->
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+</body>
+</html>
+</apex:page>

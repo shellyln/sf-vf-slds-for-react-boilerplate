@@ -1,0 +1,71 @@
+<apex:component>
+    <!-- Load require.js from static resource or CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"
+        integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        // See: https://developer.salesforce.com/docs/atlas.en-us.236.0.pages.meta/pages/vf_dev_best_practices_slds_icons.htm
+        var _SLDS_REACT_ASSET_ROOT = "{!URLFOR($Asset.SLDS, 'assets')}";
+        var _SLDS_REACT_ICON_PATH = "{!URLFOR($Asset.SLDS, 'assets/icons')}";
+        var _SLDS_REACT_IMAGE_PATH = "{!URLFOR($Asset.SLDS, 'images')}";
+
+        // Preinstalled dependencies
+        // Load from static resources and/or CDN
+        requirejs.config({
+            paths: {
+                // Require.js appends `.js` extension for you
+                'babel': "{!URLFOR($Resource.babel_standalone_6_26_0,'babel.min')}",
+                'react': "{!URLFOR($Resource.react_17_0_1,'react.production.min')}",
+                'react-dom': "{!URLFOR($Resource.react_17_0_1,'react-dom.production.min')}",
+                // Use the bundled version of Design System React
+                '@salesforce/design-system-react': "{!URLFOR($Resource.design_system_react_0_10_38,'design-system-react.min')}",
+                '@salesforce/design-system-react/components': "{!URLFOR($Resource.design_system_react_0_10_38,'design-system-react-components.min')}"
+            },
+        });
+
+        // All dependencies
+        const deps = [
+            'babel',
+            'react',
+            'react-dom',
+            '@salesforce/design-system-react',
+            '@salesforce/design-system-react/components',
+        ];
+
+        /**
+         * Load and initialize the preinstalled and app defined modules (componets and/or utilities),
+         * and run app main script tag (type="text/babel").
+         *
+         * @param {[string, string][]} additionals - App defined additional dependencies. [module name, URL][]
+         */
+        async function loadAndInitModules(additionals) {
+            const responses = await Promise.all(additionals.map(x => fetch(x[1])));
+            for (const resp of responses) {
+                if (!resp.ok) {
+                    throw new error('failed to load ' + resp.url);
+                }
+            }
+
+            const promises = [];
+            const codes = await Promise.all(responses.map(x => x.text()));
+            for (let i = 0; i < codes.length; i++) {
+                promises.push(new Promise((resolve, reject) => {
+                    requirejs(deps, Babel => {
+                        const code = Babel.transform(codes[i], {
+                            presets: ['es2015', 'react'],
+                            filename: `${additionals[i][0]}.js`,
+                            sourceMaps: 'inline',
+                        }).code;
+                        const script = `define(${JSON.stringify(additionals[i][0])},${JSON.stringify(deps)},()=>{let exports={};${code}\n;return exports;});`;
+                        new Function(script)();
+                        deps.push(additionals[i][0]);
+                        resolve();
+                    });
+                }));
+            }
+            await Promise.all(promises);
+
+            requirejs(deps, Babel => Babel.transformScriptTags());
+        }
+    </script>
+</apex:component>

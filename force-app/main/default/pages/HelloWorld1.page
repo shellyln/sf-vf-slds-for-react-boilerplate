@@ -1,0 +1,43 @@
+<apex:page docType="html-5.0"
+    applyHtmlTag="false" applyBodyTag="false"
+    showHeader="false" sidebar="false" standardStylesheets="false"
+><html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<head>
+    <title>Hello, World! 1</title>
+    <apex:slds />
+    <c:React_prod />
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+        }
+        #app-root {
+            height: 100%;
+        }
+        .slds-scope {
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="slds-scope" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- "Lightning Design System for React" On-the-Fly Transpile Example -->
+
+    <!-- TODO: define your "JavaScript Remoting" functions -->
+
+    <!-- NOTE: React root element -->
+    <div id="app-root"></div>
+
+    <!-- NOTE: App main script -->
+    <script type="text/babel" data-type="module" src="{!URLFOR($Resource.HelloWorld1,'app.js')}"></script>
+
+    <script>
+        // Load dependencies and run app main script.
+        loadAndInitModules([
+            ['hello', "{!URLFOR($Resource.HelloWorld1,'hello.js')}"],
+            ['comp', "{!URLFOR($Resource.HelloWorld1,'comp.js')}"],
+        ]);
+    </script>
+</body>
+</html></apex:page>
